@@ -4,3 +4,4 @@ export * from './user.interface';
 export * from './address.interface';
 export * from './date.interface';
 export * from './media.interface';
+export * from './social.interface';

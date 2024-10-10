@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { AUTH_ERRORS } from 'src/const/message/errors';
 import { EUserRole } from 'src/shared/enums';
 import {
@@ -8,6 +14,15 @@ import {
 } from 'src/shared/interfaces';
 
 export class AuthRegisterDto implements IRegisterPayload {
+  @IsString()
+  @ApiProperty({
+    type: 'string',
+    example: 'Hello182',
+    required: true,
+  })
+  @IsNotEmpty({ message: AUTH_ERRORS.username_required })
+  userName: string;
+
   @IsString()
   @ApiProperty({
     type: 'string',
@@ -44,14 +59,16 @@ export class AuthRegisterDto implements IRegisterPayload {
   @IsNotEmpty({ message: AUTH_ERRORS.password_required })
   password: string;
 
-  @IsString()
+  @IsOptional()
+  @IsArray()
+  @ArrayNotEmpty({ message: AUTH_ERRORS.role_required })
   @ApiProperty({
+    type: [String],
     enum: EUserRole,
-    example: EUserRole.READER,
+    example: [EUserRole.READER],
     required: false,
   })
-  @IsOptional()
-  role?: EUserRole;
+  roles?: EUserRole[];
 }
 
 export class AuthConfirmRegisterDto implements EmailVerificationPayload {

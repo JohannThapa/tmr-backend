@@ -1,33 +1,21 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService as NestJwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { SupabaseClient } from '@supabase/supabase-js';
 import { UserService } from 'src/modules/users/services/user.service';
 import {
   IJwtPayload,
   IJwtTokenResponse,
   IPayload,
 } from 'src/shared/interfaces';
+import { SupabaseService } from 'src/shared/services/supabase.service';
 
 @Injectable()
 export class JwtService {
-  private supabase: SupabaseClient;
-
-  // constructor(
-  //   private readonly jwtService: NestJwtService,
-  //   private readonly configService: ConfigService,
-  //   private readonly userService: UserService, // User service to fetch user data
-  // ) {
-  //   // Initializing Supabase client
-  //   this.supabase = new SupabaseClient(
-  //     this.configService.get('SUPABASE_URL'),
-  //     this.configService.get('SUPABASE_KEY'),
-  //   );
-  // }
   constructor(
     private readonly jwtService: NestJwtService,
     private readonly configService: ConfigService,
     private readonly userService: UserService,
+    private readonly supabaseService: SupabaseService,
   ) {}
 
   signJwt(payload: IJwtPayload): IJwtTokenResponse {
@@ -100,12 +88,12 @@ export class JwtService {
     const newAccessToken = await this.signAccessToken({
       userId: user.id,
       username: user.username,
-      roles: user.roles,
+      roles: user.roles, // Ensure user.roles is of type EUserRole[]
     });
     const newRefreshToken = await this.signRefreshToken({
       userId: user.id,
       username: user.username,
-      roles: user.roles,
+      roles: user.roles, // Ensure user.roles is of type EUserRole[]
     });
 
     return { accessToken: newAccessToken, refreshToken: newRefreshToken };

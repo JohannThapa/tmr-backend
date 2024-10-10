@@ -2,15 +2,16 @@ import { Module, ValidationPipe } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LoggerModule } from 'nestjs-pino';
-import { loggerOptions } from './configs/services';
+import { loggerOptions, SupabaseConfig } from './configs/services';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configuration } from './configs';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { CommonModule, ExceptionsFilter } from './modules/common';
 import { SampleModule as DebugModule } from './modules/debug';
 import { APP_FILTER, APP_PIPE, RouterModule } from '@nestjs/core';
-import { UsersModule } from './modules/users/users.module';
 import { BaseModule } from './modules/base';
+import { UserModule } from './modules/users/users.module';
+import { AddressModule } from './modules/address/address.module';
 
 @Module({
   imports: [
@@ -21,12 +22,21 @@ import { BaseModule } from './modules/base';
       load: [configuration],
     }),
     // Database
+    // TypeOrmModule.forRootAsync({
+    //   useFactory: (config: ConfigService) => ({
+    //     ...config.get<TypeOrmModuleOptions>('db'),
+    //   }),
+    //   inject: [ConfigService],
+    // }),
     TypeOrmModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
         ...config.get<TypeOrmModuleOptions>('db'),
+        logging: true, // Enable logging
+        synchronize: true, // This is useful for dev, but be careful in production
       }),
       inject: [ConfigService],
     }),
+
     CommonModule, // Global
     BaseModule,
     DebugModule,
@@ -34,11 +44,15 @@ import { BaseModule } from './modules/base';
     RouterModule.register([
       {
         path: 'user',
-        module: UsersModule,
+        module: UserModule,
       },
       {
         path: 'test',
         module: DebugModule,
+      },
+      {
+        path: 'address',
+        module: AddressModule,
       },
     ]),
   ],
@@ -57,6 +71,7 @@ import { BaseModule } from './modules/base';
         whitelist: true,
       }),
     },
+    SupabaseConfig,
   ],
 })
 export class AppModule {}

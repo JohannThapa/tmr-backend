@@ -1,12 +1,12 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { PostgrestError } from '@supabase/supabase-js';
+import { AuthError, AuthResponse, PostgrestError } from '@supabase/supabase-js';
 import { SupabaseConfig } from '../../configs/services/supabase.config';
 
 @Injectable()
 export class SupabaseService {
   constructor(private readonly supabaseConfig: SupabaseConfig) {}
 
-  private handleError(error: PostgrestError): never {
+  private handleError(error: PostgrestError | AuthError): never {
     // Custom error handling logic
     throw new InternalServerErrorException(error.message);
   }
@@ -54,5 +54,36 @@ export class SupabaseService {
       .delete()
       .eq('id', id);
     if (error) this.handleError(error);
+  }
+
+  async signInWithEmail(
+    email: string,
+    password: string,
+  ): Promise<AuthResponse | any> {
+    const { data, error } = await this.supabaseConfig
+      .getClient()
+      .auth.signInWithPassword({
+        email,
+        password,
+      });
+
+    if (error) {
+      this.handleError(error);
+      return null;
+    }
+
+    return data;
+  }
+
+  async resetPassword(email: string) {
+    const { data, error } = await this.supabaseConfig
+      .getClient()
+      .auth.resetPasswordForEmail(email);
+
+    if (error) {
+      this.handleError(error);
+    }
+
+    return data;
   }
 }

@@ -3,7 +3,7 @@ import { IBaseEntity } from './base.interface';
 export interface IAddress extends IBaseEntity {
   street?: string;
   city?: string;
-  province?: string;
+  province?: IProvince;
   state?: string;
   country?: string;
   zip_code?: string;

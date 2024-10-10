@@ -3,6 +3,7 @@ export const AUTH_ERRORS = {
   password_required: 'auth.error.password_required',
   email_not_found: 'auth.error.email_not_found',
   user_not_found: 'auth.error.user_not_found',
+  role_required: 'auth.error.role_required',
   refresh_token_required: 'auth.error.refresh_token_required',
   user_not_found_with_refresh_token:
     'auth.error.user_not_found_with_refresh_token',
@@ -20,6 +21,7 @@ export const AUTH_ERRORS = {
   user_pending: 'auth.error.user_pending',
   user_deleted: 'auth.error.user_deleted',
   firstname_required: 'auth.error.firstname_required',
+  username_required: 'auth.error.username_required',
   lastname_required: 'auth.error.lastname_required',
   user_is_verified: 'auth.error.user_is_verified',
   id_required: 'auth.error.id_required',

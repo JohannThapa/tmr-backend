@@ -33,7 +33,7 @@ export interface IRefreshToken {
 export interface IPayload {
   userId: string;
   username: string;
-  roles: EUserRole;
+  roles: EUserRole[];
 }
 export interface IJwtPayload {
   sub: string; // User ID
