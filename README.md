@@ -77,3 +77,37 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="33.33%"><a href="https://github.com/JohannThapa"><img src="https://tmr-amber.vercel.app/assets/images/rupak.png" width="200px;" alt="Johann Thapa"/><br /><sub><b>Johann Thapa</b></sub></a><br /><a href="https://tmr.com.np/" title="tmr">🌐</a> <a href="https://github.com/JohannThapa" title="github">💻</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+## Roadmap
+
+```mermaid
+sequenceDiagram
+    participant B as External Auth Services (Apple, Google, etc)
+    participant A as Fronted App (Web, Mobile, Desktop)
+    participant C as Backend App
+
+    A->>B: 1. Sign in through an external service
+    B->>A: 2. Get Access Token
+    A->>C: 3. Send Access Token to auth endpoint
+    C->>A: 4. Get a JWT token
+    A->>C: 5. Make any requests using a JWT token
+```
