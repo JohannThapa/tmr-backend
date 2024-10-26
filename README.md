@@ -96,18 +96,3 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
-## Roadmap
-
-```mermaid
-sequenceDiagram
-    participant B as External Auth Services (Apple, Google, etc)
-    participant A as Fronted App (Web, Mobile, Desktop)
-    participant C as Backend App
-
-    A->>B: 1. Sign in through an external service
-    B->>A: 2. Get Access Token
-    A->>C: 3. Send Access Token to auth endpoint
-    C->>A: 4. Get a JWT token
-    A->>C: 5. Make any requests using a JWT token
-```
